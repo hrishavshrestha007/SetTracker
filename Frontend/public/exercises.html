@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercises - SetTracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="exercises.css">
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">++</div>
+                SetTracker
+            </a>
+            <ul class="nav-links">
+                <li><a href="exercises.html" class="active">Exercises</a></li>
+                <li><a href="builder.html">Builder</a></li>
+                <li><a href="routines.html">Routines</a></li>
+                <li><a href="tracker.html">Tracker</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="nav-btn login">Log in</a>
+            <a href="#" class="nav-btn primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Exercise Library</h1>
+            <p class="page-subtitle">Browse our collection of exercises. Filter by muscle group to find the perfect movements for your workout.</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Exercises</button>
+            <button class="filter-btn" data-filter="chest">Chest</button>
+            <button class="filter-btn" data-filter="back">Back</button>
+            <button class="filter-btn" data-filter="legs">Legs</button>
+            <button class="filter-btn" data-filter="shoulders">Shoulders</button>
+            <button class="filter-btn" data-filter="arms">Arms</button>
+            <button class="filter-btn" data-filter="core">Core</button>
+        </div>
+
+        <!-- Exercises Container -->
+        <div id="exercisesContainer"></div>
+    </div>
+
+    <script src="../javascript/exercises.js"></script>
+</body>
+</html>

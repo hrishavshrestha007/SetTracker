@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SetTracker - Build Your Perfect Workout Set</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">++</div>
+                SetTracker
+            </a>
+            <ul class="nav-links">
+                <li><a href="exercises.html">Exercises</a></li>
+                <li><a href="builder.html">Builder</a></li>
+                <li><a href="routines.html">Routines</a></li>
+                <li><a href="tracker.html">Tracker</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="nav-btn login">Log in</a>
+            <a href="#" class="nav-btn primary">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge">#1 Workout Builder</div>
+        <h1>
+            Build Your<br>
+            <span class="highlight">Perfect Workout</span><br>
+            Set
+        </h1>
+        <p>
+            Drag & drop exercises, set reps & weights, track progress, and crush every session. Your custom routine, your rules.
+        </p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">
+                <span>▶</span> Start Building
+            </a>
+            <a href="#" class="btn btn-secondary">
+                <span>●</span> Watch Demo
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Exercises</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Users</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">1M+</div>
+                <div class="stat-label">Sets Logged</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Preview -->
+    <section class="preview-section">
+        <div class="preview-card">
+            <div class="card-header">
+                <h3 class="card-title">Today's Workout</h3>
+                <span class="day-badge">Push Day</span>
+            </div>
+            
+            <div class="exercise-list">
+                <div class="exercise-item">
+                    <div class="exercise-icon orange">↗</div>
+                    <div class="exercise-info">
+                        <div class="exercise-name">Bench Press</div>
+                        <div class="exercise-details">4 sets × 8 reps</div>
+                    </div>
+                    <div class="exercise-weight">
+                        <div class="weight-current">80 kg</div>
+                        <div class="weight-last">Last: 75 kg</div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-icon blue">↗</div>
+                    <div class="exercise-info">
+                        <div class="exercise-name">Shoulder Press</div>
+                        <div class="exercise-details">3 sets × 10 reps</div>
+                    </div>
+                    <div class="exercise-weight">
+                        <div class="weight-current">50 kg</div>
+                        <div class="weight-last">Last: 47.5 kg</div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-icon purple">⧉</div>
+                    <div class="exercise-info">
+                        <div class="exercise-name">Tricep Dips</div>
+                        <div class="exercise-details">3 sets × 12 reps</div>
+                    </div>
+                    <div class="exercise-weight">
+                        <div class="weight-current">BW+10</div>
+                        <div class="weight-last">Last: BW</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-header">
+                    <span>Progress</span>
+                    <span class="progress-percent">66%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Animate progress bar on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.progress-fill').style.width = '66%';
+            }, 500);
+        });
+
+        // Add hover interactions for exercise items
+        document.querySelectorAll('.exercise-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(8px)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
