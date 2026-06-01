@@ -42,3 +42,14 @@ Content-Type: application/json
 ###
 
 DELETE {{Backend_HostAddress}}/api/exercises/24
+
+###
+
+# Get all muscle groups
+GET {{Backend_HostAddress}}/api/musclegroups
+Accept: application/json
+
+###
+# Get muscle group by ID
+GET {{Backend_HostAddress}}/api/musclegroups/1
+Accept: application/json

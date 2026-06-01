@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.Services;
 using Backend.Services.Exercises;
+using Backend.Services.MuscleGroups;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

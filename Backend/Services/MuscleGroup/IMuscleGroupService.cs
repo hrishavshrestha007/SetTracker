@@ -1,5 +1,9 @@
-namespace Backend.Services.MuscleGroup;
+using Backend.Models.Entities;
 
-public class IMuscleGroupService
+namespace Backend.Services.MuscleGroups;
+
+public interface IMuscleGroupService
 {
+    Task<List<MuscleGroup>> GetMuscleGroups();
+    Task<MuscleGroup> GetMuscleGroupById(int id);
 }
