@@ -1,6 +1,44 @@
 @Backend_HostAddress = http://localhost:5210
 
-GET {{Backend_HostAddress}}/weatherforecast/
+GET {{Backend_HostAddress}}/api/exercises
 Accept: application/json
 
 ###
+
+GET {{Backend_HostAddress}}/api/exercises/24
+Accept: application/json
+
+###
+
+POST {{Backend_HostAddress}}/api/exercises
+Content-Type: application/json
+
+{
+	"name": "Custom Empty Exercise",
+	"muscleGroupId": 2,
+	"icon": "fa-arrow-down",
+	"color": "text-blue-400",
+	"bg": "bg-blue-500/15",
+	"sets": null,
+	"reps": null
+}
+
+###
+
+PUT {{Backend_HostAddress}}/api/exercises/24
+Content-Type: application/json
+
+{
+    "id": 24,
+    "name": "Custom Updated Exercise",
+    "muscleGroupId": 1,
+    "icon": "fa-dumbbell",
+    "color": "text-orange-400",
+    "bg": "bg-orange-500/15",
+    "sets": 5,
+    "reps": 8
+}
+
+###
+
+DELETE {{Backend_HostAddress}}/api/exercises/24
