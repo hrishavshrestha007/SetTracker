@@ -1,3 +1,4 @@
+using Backend.Models.DTOs;
 using Backend.Models.Entities;
 using Backend.Services.Exercises;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,19 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetAll()
         {
             var exercises = await _exerciseService.GetAllAsync();
-            return Ok(exercises);
+
+            var exerciseDtos = exercises.Select(e => new ExerciseDto
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Muscle = e.MuscleGroup?.Name,
+                Icon = e.Icon,
+                Color = e.Color,
+                Bg = e.Bg,
+                Sets = e.Sets,
+                Reps = e.Reps
+            }).ToList();
+            return Ok(exerciseDtos);
         }
 
         [HttpGet("{id}")]
@@ -29,7 +42,18 @@ namespace Backend.Controllers
             {
                 return NotFound();
             }
-            return Ok(exercise);
+            var exerciseDto = new ExerciseDto
+            {
+                Id = exercise.Id,
+                Name = exercise.Name,
+                Muscle = exercise.MuscleGroup?.Name,
+                Icon = exercise.Icon,
+                Color = exercise.Color,
+                Bg = exercise.Bg,
+                Sets = exercise.Sets,
+                Reps = exercise.Reps
+            };
+            return Ok(exerciseDto);
         }
 
         [HttpPost]

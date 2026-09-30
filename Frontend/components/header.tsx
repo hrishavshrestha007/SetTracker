@@ -1,9 +1,14 @@
 'use client';
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { logout } from "@/modules/auth/actions";
 
-export default function Header() {
+interface HeaderProps {
+  userName?: string;
+}
+
+export default function Header({ userName }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -24,12 +29,27 @@ export default function Header() {
 
         {/* Auth Buttons & Mobile Menu Toggle */}
         <div className="flex items-center gap-4">
-          <button className="hidden sm:block px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300">
-            Login
-          </button>
-          <button className="hidden sm:block px-6 py-2 bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 font-semibold rounded-lg transition-all duration-300">
-            Sign Up
-          </button>
+          {userName ? (
+            <>
+              <Link href="/user" className="hidden sm:block px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300">
+                {userName}
+              </Link>
+              <form action={logout} className="hidden sm:block">
+                <button type="submit" className="px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300">
+                  Log out
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="hidden sm:block px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300">
+                Login
+              </Link>
+              <Link href="/signup" className="hidden sm:block px-6 py-2 bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 font-semibold rounded-lg transition-all duration-300">
+                Sign Up
+              </Link>
+            </>
+          )}
 
           {/* Mobile Menu Toggle */}
           <button
@@ -57,12 +77,27 @@ export default function Header() {
       {isMenuOpen && (
         <div className="sm:hidden absolute top-full left-0 right-0 backdrop-blur-xl bg-slate-950/50 border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3">
-            <button className="w-full px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300 text-left">
-                Login
-            </button>
-            <button className="w-full px-6 py-2 bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 font-semibold rounded-lg transition-all duration-300">
-              Sign Up
-            </button>
+            {userName ? (
+              <>
+                <Link href="/user" className="w-full px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300 text-left block">
+                  {userName}
+                </Link>
+                <form action={logout}>
+                  <button type="submit" className="w-full px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300 text-left">
+                    Log out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="w-full px-6 py-2 text-slate-300 hover:text-white font-semibold rounded-lg transition-all duration-300 text-left block">
+                  Login
+                </Link>
+                <Link href="/signup" className="w-full px-6 py-2 bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 font-semibold rounded-lg transition-all duration-300 block text-center">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -7,7 +7,7 @@ namespace Backend.Models.Entities
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        [JsonIgnore]
+        
         public ICollection<Exercise>? Exercises { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getExercises, type MuscleGroup, getExerciseById } from "@/services/exerciseServices";
+import { getExercises, type MuscleGroup } from "@/services/exerciseServices";
 
 const FILTER_GROUPS: Array<MuscleGroup | "All"> = [
   "All",
@@ -27,7 +27,7 @@ export default async function ExercisesPage({ searchParams }: ExercisesPageProps
     const filteredExercises =
       selectedGroup === "All"
         ? exercises
-        : exercises.filter((exercise) => exercise.muscle === selectedGroup);
+        : exercises.filter((exercise) => exercise.muscle.toLowerCase() === selectedGroup.toLowerCase());
 
     return (
       <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
@@ -69,15 +69,16 @@ export default async function ExercisesPage({ searchParams }: ExercisesPageProps
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredExercises.map((exercise) => (
-                <article
+                <Link
                   key={exercise.id}
-                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+                  href={`/exercises/${exercise.id}`}
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/20 hover:bg-white/[0.06]"
                 >
                   <div className="mb-3 inline-flex rounded-full bg-slate-800 px-3 py-1 text-xs text-sky-200">
                     {exercise.muscle}
                   </div>
                   <h2 className="text-xl font-semibold">{exercise.name}</h2>
-                </article>
+                </Link>
               ))}
             </div>
           )}

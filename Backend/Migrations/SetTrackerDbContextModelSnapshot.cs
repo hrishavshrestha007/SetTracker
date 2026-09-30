@@ -313,16 +313,19 @@ namespace Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Password");
 
                     b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -333,11 +336,32 @@ namespace Backend.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "admin@example.com",
                             Name = "Admin User",
-                            Password = "@Admin123",
-                            Role = "Admin",
-                            Username = "Admin"
+                            PasswordHash = "@Admin123",
+                            Role = "Admin"
                         });
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.UserExercises+UserExercise", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Sets")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ExerciseId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("UserExercises");
                 });
 
             modelBuilder.Entity("Backend.Models.Entities.Exercise", b =>
@@ -351,9 +375,38 @@ namespace Backend.Migrations
                     b.Navigation("MuscleGroup");
                 });
 
+            modelBuilder.Entity("Backend.Models.Entities.UserExercises+UserExercise", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.Exercise", "Exercise")
+                        .WithMany("UserExercises")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.Entities.User", "User")
+                        .WithMany("UserExercises")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.Exercise", b =>
+                {
+                    b.Navigation("UserExercises");
+                });
+
             modelBuilder.Entity("Backend.Models.Entities.MuscleGroup", b =>
                 {
                     b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.User", b =>
+                {
+                    b.Navigation("UserExercises");
                 });
 #pragma warning restore 612, 618
         }

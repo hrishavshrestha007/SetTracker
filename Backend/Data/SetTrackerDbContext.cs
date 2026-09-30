@@ -1,6 +1,7 @@
 using System;
 using Backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using static Backend.Models.Entities.UserExercises;
 
 namespace Backend.Data
 {
@@ -9,6 +10,7 @@ namespace Backend.Data
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserExercise> UserExercises { get; set; }
 
         public SetTrackerDbContext(DbContextOptions<SetTrackerDbContext> options) : base(options)
         {
@@ -72,8 +74,30 @@ namespace Backend.Data
 
             //Seed data for admin user
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Role = "Admin", Name = "Admin User", Username = "Admin", Password = "@Admin123" }
+                new User
+                {
+                    Id = 1,
+                    Role = "Admin",
+                    Name = "Admin User",
+                    Email = "admin@example.com",
+                    PasswordHash = "@Admin123"
+                }
             );
+
+            modelBuilder.Entity<UserExercise>()
+    .HasKey(x => new { x.UserId, x.ExerciseId });
+
+modelBuilder.Entity<UserExercise>()
+    .HasOne(x => x.User)
+    .WithMany(x => x.UserExercises)
+    .HasForeignKey(x => x.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+modelBuilder.Entity<UserExercise>()
+    .HasOne(x => x.Exercise)
+    .WithMany(x => x.UserExercises)
+    .HasForeignKey(x => x.ExerciseId)
+    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

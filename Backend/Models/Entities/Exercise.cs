@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using static Backend.Models.Entities.UserExercises;
 
 namespace Backend.Models.Entities
 {
@@ -15,5 +16,8 @@ namespace Backend.Models.Entities
         public string? Bg { get; set; }
         public int? Sets { get; set; }
         public int? Reps { get; set; }
+
+        // Exercise.cs
+public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
     }
 }

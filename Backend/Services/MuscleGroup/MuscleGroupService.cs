@@ -1,6 +1,5 @@
 using Backend.Data;
 using Backend.Models.Entities;
-using Backend.Services.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services.MuscleGroups;
@@ -16,16 +15,15 @@ public class MuscleGroupService : IMuscleGroupService
 
     public async Task<List<MuscleGroup>> GetMuscleGroups()
     {
-        return await _context.MuscleGroups.ToListAsync();
+        return await _context.MuscleGroups
+            .Include(m => m.Exercises)
+            .ToListAsync();
     }
 
-    public async Task<MuscleGroup> GetMuscleGroupById(int id)
+    public async Task<MuscleGroup?> GetMuscleGroupById(int id)
     {
-        var muscleGroup = await _context.MuscleGroups.FindAsync(id);
-        if (muscleGroup == null)
-        {
-            throw new Exception($"Muscle group with ID {id} not found.");
-        }
-        return muscleGroup;
+        return await _context.MuscleGroups
+            .Include(m => m.Exercises)
+            .FirstOrDefaultAsync(m => m.Id == id);  
     }
 }

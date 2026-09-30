@@ -33,12 +33,16 @@ namespace Backend.Services
 
         public async Task<IEnumerable<Exercise>> GetAllAsync()
         {
-            return await _context.Exercises.Include(e => e.MuscleGroup).ToListAsync();
+            return await _context.Exercises
+            .Include(e => e.MuscleGroup)
+            .ToListAsync();
         }
 
         public Task<Exercise> GetByIdAsync(int id)
         {
-            return _context.Exercises.Include(e => e.MuscleGroup).FirstAsync(e => e.Id == id);
+            return _context.Exercises
+            .Include(e => e.MuscleGroup)
+            .FirstAsync(e => e.Id == id);
         }
 
 

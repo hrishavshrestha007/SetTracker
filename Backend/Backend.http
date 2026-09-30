@@ -53,3 +53,14 @@ Accept: application/json
 # Get muscle group by ID
 GET {{Backend_HostAddress}}/api/musclegroups/1
 Accept: application/json
+
+###
+# Login
+POST {{Backend_HostAddress}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "@Admin123"
+}

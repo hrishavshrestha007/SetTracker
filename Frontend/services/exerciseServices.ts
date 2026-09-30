@@ -61,3 +61,27 @@ export async function getExerciseById(id: number): Promise<Exercise> {
 
   return (await response.json()) as Exercise;
 }
+
+export async function updateExerciseSetsReps(
+  id: number,
+  sets: number,
+  reps: number
+): Promise<Exercise> {
+  const response = await fetch(`${API_URL}/api/exercises/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id,
+      sets,
+      reps,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to update exercise with id ${id}: ${response.status}`);
+  }
+
+  return (await response.json()) as Exercise;
+}
