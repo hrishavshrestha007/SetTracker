@@ -1,7 +1,7 @@
 using System;
 using Backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using static Backend.Models.Entities.UserExercises;
+using static Backend.Models.Entities.UserExercise;
 
 namespace Backend.Data
 {

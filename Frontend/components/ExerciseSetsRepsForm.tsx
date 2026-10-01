@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateExerciseSetsReps } from "@/services/exerciseServices";
+import { saveExerciseSetsReps } from "@/modules/exercise/actions";
 
 interface ExerciseSetsRepsFormProps {
   exerciseId: number;
@@ -30,7 +30,7 @@ export default function ExerciseSetsRepsForm({
     try {
       setIsSaving(true);
       setMessage(null);
-      await updateExerciseSetsReps(exerciseId, sets, reps);
+      await saveExerciseSetsReps(exerciseId, sets, reps);
       setMessage("Saved successfully.");
     } catch {
       setMessage("Failed to save. Please try again.");

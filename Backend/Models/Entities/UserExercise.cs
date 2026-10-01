@@ -2,10 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Models.Entities;
 
-public class UserExercises
+public class UserExercise
 {
-    public class UserExercise
-{
+
     public int UserId { get; set; }
     public User User { get; set; } = null!;
 
@@ -14,5 +13,4 @@ public class UserExercises
 
     public int? Sets { get; set; }
     public int? Reps { get; set; }
-}
 }

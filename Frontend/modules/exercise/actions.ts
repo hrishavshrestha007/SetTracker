@@ -1,0 +1,36 @@
+'use server';
+
+import { cookies } from "next/headers";
+import { API_URL } from "@/libs/constants";
+
+export async function saveExerciseSetsReps(
+	exerciseId: number,
+	sets: number,
+	reps: number,
+) {
+	const token = (await cookies()).get("token")?.value;
+
+	if (!token) {
+		throw new Error("Please log in to save your sets and reps.");
+	}
+
+	const response = await fetch(`${API_URL}/api/user-exercises/${exerciseId}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({
+			exerciseId,
+			sets,
+			reps,
+		}),
+	});
+
+	if (!response.ok) {
+		const errorMessage = await response.text();
+		throw new Error(
+			`Failed to save exercise with id ${exerciseId}: ${response.status} ${errorMessage}`,
+		);
+	}
+}

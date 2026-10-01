@@ -63,25 +63,25 @@ export async function getExerciseById(id: number): Promise<Exercise> {
 }
 
 export async function updateExerciseSetsReps(
+  userId: number,
   id: number,
   sets: number,
   reps: number
-): Promise<Exercise> {
-  const response = await fetch(`${API_URL}/api/exercises/${id}`, {
+): Promise<void> {
+  const response = await fetch(`${API_URL}/api/user-exercises/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id,
+      userId,
+      exerciseId: id,
       sets,
       reps,
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to update exercise with id ${id}: ${response.status}`);
+    throw new Error(`Failed to save exercise with id ${id}: ${response.status}`);
   }
-
-  return (await response.json()) as Exercise;
 }

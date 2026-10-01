@@ -37,10 +37,7 @@ export default function SignupPage() {
         throw new Error(errorBody?.message ?? 'Signup failed');
       }
 
-      const data = await response.json();
-      // Store token and redirect
-      localStorage.setItem('token', data.token);
-      window.location.href = '/';
+      window.location.href = '/login';
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -73,7 +70,8 @@ export default function SignupPage() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5 mb-6">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name Input */}
           <div>
             <label className="block text-slate-200 text-sm font-medium mb-2">
@@ -143,6 +141,7 @@ export default function SignupPage() {
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
         </form>
+        </div>
 
         {/* Divider */}
         <div className="mb-6 flex items-center gap-3">
