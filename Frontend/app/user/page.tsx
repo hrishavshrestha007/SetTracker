@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { API_URL } from "@/libs/constants";
+import DeleteExerciseButton from "@/components/DeleteExerciseButton";
 
 interface SavedExercise {
   exerciseId: number;
@@ -60,6 +61,7 @@ export default async function UserPage() {
                   <p className="mt-4 text-slate-300">
                     {exercise.sets} sets x {exercise.reps} reps
                   </p>
+                  <DeleteExerciseButton exerciseId={exercise.exerciseId} />
                 </article>
               ))}
             </div>

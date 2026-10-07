@@ -343,13 +343,16 @@ namespace Backend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.UserExercises+UserExercise", b =>
+            modelBuilder.Entity("Backend.Models.Entities.UserExercise", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("Reps")
                         .HasColumnType("int");
@@ -375,7 +378,7 @@ namespace Backend.Migrations
                     b.Navigation("MuscleGroup");
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.UserExercises+UserExercise", b =>
+            modelBuilder.Entity("Backend.Models.Entities.UserExercise", b =>
                 {
                     b.HasOne("Backend.Models.Entities.Exercise", "Exercise")
                         .WithMany("UserExercises")

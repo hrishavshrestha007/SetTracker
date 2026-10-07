@@ -15,7 +15,7 @@ public class UserExerciseService : IUserExerciseService
 
     public async Task<bool> Exists(int userId, int exerciseId)
     {
-        return await _context.UserExercises.AnyAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId);
+        return await _context.UserExercises.AnyAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId && !ue.IsDeleted);
     }
 
     public async Task<UserExercise> CreateAsync(UserExercise entity)
@@ -34,13 +34,13 @@ public class UserExerciseService : IUserExerciseService
         return await _context.UserExercises
             .Include(ue => ue.User)
             .Include(ue => ue.Exercise)
-            .FirstOrDefaultAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId);
+            .FirstOrDefaultAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId && !ue.IsDeleted);
     }
 
     public async Task<IReadOnlyList<UserExercise>> GetAllAsync(int userId)
     {
         return await _context.UserExercises
-            .Where(ue => ue.UserId == userId)
+            .Where(ue => ue.UserId == userId && !ue.IsDeleted)
             .Include(ue => ue.Exercise)
             .ThenInclude(exercise => exercise.MuscleGroup)
             .OrderBy(ue => ue.Exercise.Name)
@@ -75,8 +75,24 @@ public class UserExerciseService : IUserExerciseService
 
         userExercise.Sets = sets;
         userExercise.Reps = reps;
+        userExercise.IsDeleted = false;
 
         await _context.SaveChangesAsync();
         return userExercise;
+    }
+
+    public async Task<bool> SoftDeleteAsync(int userId, int exerciseId)
+    {
+        var userExercise = await _context.UserExercises
+            .FirstOrDefaultAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId && !ue.IsDeleted);
+
+        if (userExercise == null)
+        {
+            return false;
+        }
+
+        userExercise.IsDeleted = true;
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

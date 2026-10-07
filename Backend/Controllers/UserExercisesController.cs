@@ -82,4 +82,17 @@ public class UserExercisesController : ControllerBase
             return NotFound(new { message = ex.Message });
         }
     }
+
+    [HttpDelete("{exerciseId:int}")]
+    public async Task<IActionResult> Delete(int exerciseId)
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!int.TryParse(userIdClaim, out var userId) || userId <= 0)
+        {
+            return Unauthorized();
+        }
+
+        var deleted = await _userExerciseService.SoftDeleteAsync(userId, exerciseId);
+        return deleted ? NoContent() : NotFound();
+    }
 }

@@ -34,3 +34,22 @@ export async function saveExerciseSetsReps(
 		);
 	}
 }
+
+export async function removeExerciseFromWorkout(exerciseId: number) {
+	const token = (await cookies()).get("token")?.value;
+
+	if (!token) {
+		throw new Error("Please log in to remove this exercise.");
+	}
+
+	const response = await fetch(`${API_URL}/api/user-exercises/${exerciseId}`, {
+		method: "DELETE",
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (!response.ok) {
+		throw new Error(`Failed to remove exercise with id ${exerciseId}: ${response.status}`);
+	}
+}

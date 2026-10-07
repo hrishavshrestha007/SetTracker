@@ -13,4 +13,5 @@ public class UserExercise
 
     public int? Sets { get; set; }
     public int? Reps { get; set; }
+    public bool IsDeleted { get; set; }
 }

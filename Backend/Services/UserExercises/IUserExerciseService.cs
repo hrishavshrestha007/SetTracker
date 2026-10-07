@@ -6,4 +6,5 @@ public interface IUserExerciseService
 {
 	Task<UserExercise> UpsertAsync(int userId, int exerciseId, int sets, int reps);
 	Task<IReadOnlyList<UserExercise>> GetAllAsync(int userId);
+	Task<bool> SoftDeleteAsync(int userId, int exerciseId);
 }
