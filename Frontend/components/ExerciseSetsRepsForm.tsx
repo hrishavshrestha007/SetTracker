@@ -48,50 +48,38 @@ export default function ExerciseSetsRepsForm({
         <div className="flex items-center justify-between">
           <span className="font-medium text-slate-200">Sets</span>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setSets((value) => Math.max(1, value - 1))}
-              className="rounded-lg border border-white/20 bg-white/5 px-3 py-1 transition hover:bg-white/10"
-              aria-label="Decrease sets"
-            >
-              -
-            </button>
-            <span className="inline-flex min-w-10 justify-center rounded-lg bg-slate-900 px-3 py-1 font-semibold">
-              {sets}
-            </span>
-            <button
-              type="button"
-              onClick={() => setSets((value) => Math.min(30, value + 1))}
-              className="rounded-lg border border-white/20 bg-white/5 px-3 py-1 transition hover:bg-white/10"
-              aria-label="Increase sets"
-            >
-              +
-            </button>
+            <input
+              type="number"
+              min={1}
+              max={30}
+              value={sets}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if(value >= 1 && value <= 30) {
+                  setSets(value);
+                }
+              }}
+              className="w-16 rounded-lg border border-white/20 bg-slate-900 px-3 py-1 text-center font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
           </div>
         </div>
 
         <div className="flex items-center justify-between">
           <span className="font-medium text-slate-200">Reps</span>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setReps((value) => Math.max(1, value - 1))}
-              className="rounded-lg border border-white/20 bg-white/5 px-3 py-1 transition hover:bg-white/10"
-              aria-label="Decrease reps"
-            >
-              -
-            </button>
-            <span className="inline-flex min-w-10 justify-center rounded-lg bg-slate-900 px-3 py-1 font-semibold">
-              {reps}
-            </span>
-            <button
-              type="button"
-              onClick={() => setReps((value) => Math.min(100, value + 1))}
-              className="rounded-lg border border-white/20 bg-white/5 px-3 py-1 transition hover:bg-white/10"
-              aria-label="Increase reps"
-            >
-              +
-            </button>
+            <input
+              type="number"
+              min={1}
+              max={100}
+              value={reps}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if(value >= 1 && value <= 100) {
+                  setReps(value);
+                }
+              }}
+              className="w-16 rounded-lg border border-white/20 bg-slate-900 px-3 py-1 text-center font-semibold text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
           </div>
         </div>
       </div>

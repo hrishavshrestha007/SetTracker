@@ -12,6 +12,8 @@ namespace Backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserExercise> UserExercises { get; set; }
 
+        public DbSet<UserExerciseSet> UserExerciseSets { get; set; }
+
         public SetTrackerDbContext(DbContextOptions<SetTrackerDbContext> options) : base(options)
         {
         }
