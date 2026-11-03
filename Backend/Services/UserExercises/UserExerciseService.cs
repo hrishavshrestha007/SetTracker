@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.Models.DTOs;
 using Backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,7 @@ public class UserExerciseService : IUserExerciseService
         return await _context.UserExercises
             .Include(ue => ue.User)
             .Include(ue => ue.Exercise)
+            .Include(ue => ue.ExerciseSets)
             .FirstAsync(ue => ue.UserId == entity.UserId && ue.ExerciseId == entity.ExerciseId);
     }
 
@@ -34,6 +36,7 @@ public class UserExerciseService : IUserExerciseService
         return await _context.UserExercises
             .Include(ue => ue.User)
             .Include(ue => ue.Exercise)
+            .Include(ue => ue.ExerciseSets)
             .FirstOrDefaultAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId && !ue.IsDeleted);
     }
 
@@ -43,11 +46,15 @@ public class UserExerciseService : IUserExerciseService
             .Where(ue => ue.UserId == userId && !ue.IsDeleted)
             .Include(ue => ue.Exercise)
             .ThenInclude(exercise => exercise.MuscleGroup)
+            .Include(ue => ue.ExerciseSets)
             .OrderBy(ue => ue.Exercise.Name)
             .ToListAsync();
     }
 
-    public async Task<UserExercise> UpsertAsync(int userId, int exerciseId, int sets, int reps)
+    public async Task<UserExercise> UpsertAsync(
+        int userId,
+        int exerciseId,
+        List<ExerciseSetDto> sets)
     {
         if (!await _context.Users.AnyAsync(user => user.Id == userId))
         {
@@ -60,6 +67,7 @@ public class UserExerciseService : IUserExerciseService
         }
 
         var userExercise = await _context.UserExercises
+            .Include(ue => ue.ExerciseSets)
             .FirstOrDefaultAsync(ue => ue.UserId == userId && ue.ExerciseId == exerciseId);
 
         if (userExercise == null)
@@ -73,9 +81,23 @@ public class UserExerciseService : IUserExerciseService
             _context.UserExercises.Add(userExercise);
         }
 
-        userExercise.Sets = sets;
-        userExercise.Reps = reps;
         userExercise.IsDeleted = false;
+        _context.UserExerciseSets.RemoveRange(userExercise.ExerciseSets);
+        await _context.SaveChangesAsync();
+
+        foreach (var set in sets)
+        {
+            _context.UserExerciseSets.Add(new UserExerciseSet
+            {
+                UserId = userId,
+                ExerciseId = exerciseId,
+                SetNumber = set.SetNumber,
+                Reps = set.Reps,
+                Weight = set.Weight,
+                PreviousWeight = set.PreviousWeight,
+                IsCompleted = set.IsCompleted
+            });
+        }
 
         await _context.SaveChangesAsync();
         return userExercise;

@@ -46,6 +46,7 @@ export default async function ExerciseDetailPage({ params }: ExerciseDetailPageP
 							exerciseId={exercise.id}
 							initialSets={exercise.sets}
 							initialReps={exercise.reps}
+							initialWeight={exercise.weight}
 							isLoggedIn={isLoggedIn}
 						/>
 					</div>

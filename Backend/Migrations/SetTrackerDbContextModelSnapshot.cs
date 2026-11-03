@@ -354,17 +354,39 @@ namespace Backend.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Sets")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "ExerciseId");
 
                     b.HasIndex("ExerciseId");
 
                     b.ToTable("UserExercises");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.UserExerciseSet", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SetNumber")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PreviousWeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ExerciseId", "SetNumber");
+
+                    b.ToTable("UserExerciseSets");
                 });
 
             modelBuilder.Entity("Backend.Models.Entities.Exercise", b =>
@@ -397,6 +419,17 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Backend.Models.Entities.UserExerciseSet", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.UserExercise", "UserExercise")
+                        .WithMany("ExerciseSets")
+                        .HasForeignKey("UserId", "ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserExercise");
+                });
+
             modelBuilder.Entity("Backend.Models.Entities.Exercise", b =>
                 {
                     b.Navigation("UserExercises");
@@ -410,6 +443,11 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Models.Entities.User", b =>
                 {
                     b.Navigation("UserExercises");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.UserExercise", b =>
+                {
+                    b.Navigation("ExerciseSets");
                 });
 #pragma warning restore 612, 618
         }

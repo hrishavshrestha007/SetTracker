@@ -30,13 +30,20 @@ public class UserExercisesController : ControllerBase
 
         var savedExercises = await _userExerciseService.GetAllAsync(userId);
 
-        return Ok(savedExercises.Select(userExercise => new UserExerciseLogDto
+        return Ok(savedExercises.Select(userExercise => new
         {
             ExerciseId = userExercise.ExerciseId,
             Name = userExercise.Exercise.Name,
             Muscle = userExercise.Exercise.MuscleGroup?.Name,
-            Sets = userExercise.Sets,
-            Reps = userExercise.Reps
+            Sets = userExercise.ExerciseSets
+                .OrderBy(set => set.SetNumber)
+                .Select(set => new
+                {
+                    set.SetNumber,
+                    set.Reps,
+                    set.Weight,
+                    set.IsCompleted
+                })
         }));
     }
 
@@ -50,9 +57,17 @@ public class UserExercisesController : ControllerBase
             return BadRequest("Exercise ID in the URL does not match the request body.");
         }
 
-        if (request.Sets <= 0 || request.Reps <= 0)
+        if (request.Sets == null || request.Sets.Count == 0)
         {
-            return BadRequest("Sets and reps must be valid values.");
+            return BadRequest("At least one exercise set is required.");
+        }
+
+        if (request.Sets.Any(set =>
+            set.SetNumber <= 0 ||
+            set.Reps <= 0 ||
+            set.Weight < 0))
+        {
+            return BadRequest("Set number, reps, and weight must be valid values.");
         }
 
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,15 +81,21 @@ public class UserExercisesController : ControllerBase
             var userExercise = await _userExerciseService.UpsertAsync(
                 userId,
                 request.ExerciseId,
-                request.Sets,
-                request.Reps);
+                request.Sets);
 
             return Ok(new
             {
                 userExercise.UserId,
                 userExercise.ExerciseId,
-                userExercise.Sets,
-                userExercise.Reps
+                Sets = userExercise.ExerciseSets
+                    .OrderBy(set => set.SetNumber)
+                    .Select(set => new
+                    {
+                        set.SetNumber,
+                        set.Reps,
+                        set.Weight,
+                        set.IsCompleted
+                    })
             });
         }
         catch (InvalidOperationException ex)

@@ -5,8 +5,13 @@ import { API_URL } from "@/libs/constants";
 
 export async function saveExerciseSetsReps(
 	exerciseId: number,
-	sets: number,
-	reps: number,
+	sets: Array<{
+		setNumber: number;
+		reps: number;
+		weight: number | null;
+		previousWeight: number | null;
+		isCompleted: boolean;
+	}>,
 ) {
 	const token = (await cookies()).get("token")?.value;
 
@@ -23,7 +28,6 @@ export async function saveExerciseSetsReps(
 		body: JSON.stringify({
 			exerciseId,
 			sets,
-			reps,
 		}),
 	});
 

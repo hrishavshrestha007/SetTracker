@@ -100,6 +100,15 @@ modelBuilder.Entity<UserExercise>()
     .WithMany(x => x.UserExercises)
     .HasForeignKey(x => x.ExerciseId)
     .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserExerciseSet>()
+                .HasKey(x => new { x.UserId, x.ExerciseId, x.SetNumber });
+
+            modelBuilder.Entity<UserExerciseSet>()
+                .HasOne(x => x.UserExercise)
+                .WithMany(x => x.ExerciseSets)
+                .HasForeignKey(x => new { x.UserId, x.ExerciseId })
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

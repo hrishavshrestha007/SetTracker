@@ -3,12 +3,17 @@ import { redirect } from "next/navigation";
 import { API_URL } from "@/libs/constants";
 import DeleteExerciseButton from "@/components/DeleteExerciseButton";
 
+interface SavedSet {
+  setNumber: number;
+  reps: number;
+  weight: number | null;
+}
+
 interface SavedExercise {
   exerciseId: number;
   name: string | null;
   muscle: string | null;
-  sets: number | null;
-  reps: number | null;
+  sets: SavedSet[];
 }
 
 export default async function UserPage() {
@@ -59,7 +64,12 @@ export default async function UserPage() {
                   <p className="text-sm text-sky-300">{exercise.muscle}</p>
                   <h3 className="mt-2 text-xl font-semibold">{exercise.name}</h3>
                   <p className="mt-4 text-slate-300">
-                    {exercise.sets} sets x {exercise.reps} reps
+                    {exercise.sets.map((set) => (
+                      <span key={set.setNumber}>
+                        Set {set.setNumber}: {set.reps} reps
+                        {set.weight !== null && ` at ${set.weight} lbs`}
+                      </span>
+                    ))}
                   </p>
                   <DeleteExerciseButton exerciseId={exercise.exerciseId} />
                 </article>

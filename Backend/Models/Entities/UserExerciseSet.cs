@@ -8,6 +8,8 @@ public class UserExerciseSet
 
     public int Reps { get; set; }
     public int? Weight { get; set; }
+    public int? PreviousWeight { get; set; }
+    public bool IsCompleted { get; set; }
 
     public UserExercise UserExercise { get; set; } = null!;
 }

@@ -17,6 +17,7 @@ export interface Exercise {
   bg: string;
   sets: number | null;
   reps: number | null;
+  weight: number | null;
 }
 
 export interface ExerciseSummary {
